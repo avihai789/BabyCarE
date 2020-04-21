@@ -2,37 +2,63 @@ package com.example.babycare;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class AlertActivity extends AppCompatActivity {
 
-    String passedVar=null;
+    private DatabaseHandler dbHandler = null;
+    ArrayList<String> listItem;
+    ArrayAdapter adapter;
+    ListView dateList;
+    private Button resetBtn;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alert);
+        resetBtn = findViewById(R.id.eraseBtn);
+        dbHandler = MainActivity.dbHandler;
+        dateList = findViewById(R.id.alerts_dates_list);
+        listItem = new ArrayList<>();
 
-        ListView listview1 = findViewById(R.id.alerts_dates_list1);
-        final List<String> ListElementsArrayList = new ArrayList<String>(Arrays.<String>asList());
-        final ArrayAdapter<String> adapter = new ArrayAdapter<>
-                (AlertActivity.this, android.R.layout.simple_list_item_1, ListElementsArrayList);
-        listview1.setAdapter(adapter);
 
-        if(MainActivity.DATE!=null) {
-            passedVar = getIntent().getStringExtra(MainActivity.DATE);
-            ListElementsArrayList.add(MainActivity.DATE);
-            adapter.notifyDataSetChanged();
+        showContent();
+
+        resetBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dbHandler.deleteData();
+                listItem.clear();
+                showContent();
+            }
+        });
+    }
+
+    public void showContent(){
+
+        Cursor cursor = dbHandler.viewData();
+        if(cursor.getCount()==0){
+            Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
         }
-
-
+        else {
+            while (cursor.moveToNext()){
+                listItem.add(cursor.getString(0));
+            }
+        }
+            adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItem);
+            dateList.setAdapter(adapter);
 
     }
+
 }
+

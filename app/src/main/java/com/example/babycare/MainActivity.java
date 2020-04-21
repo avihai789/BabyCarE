@@ -4,39 +4,37 @@ package com.example.babycare;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.ListView;
 
-import java.util.GregorianCalendar;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Date;
+//import java.util.Date;
+import java.util.*;
 
 public class MainActivity extends AppCompatActivity {
     private ImageButton last_alerts_button;
     private ImageButton alert_button;
     public static String DATE = null;
-
+    public static DatabaseHandler dbHandler = null;
+    SQLiteDatabase db = null;
+    public static ContentValues values = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        dbHandler = new DatabaseHandler(this);
+        db = dbHandler.getWritableDatabase();
+        values = new ContentValues();
 
-        ListView listview2 = findViewById(R.id.alerts_dates_list2);
-        final List<String> ListElementsArrayList = new ArrayList<String>(Arrays.<String>asList());
-        final ArrayAdapter<String> adapter = new ArrayAdapter<>
-                (MainActivity.this, android.R.layout.simple_list_item_1, ListElementsArrayList);
-        listview2.setAdapter(adapter);
+        final Intent i = new Intent(MainActivity.this,AlertActivity.class);
 
         alert_button = findViewById(R.id.alert_btn);
         last_alerts_button = findViewById(R.id.last_alert_btn);
@@ -44,14 +42,14 @@ public class MainActivity extends AppCompatActivity {
         last_alerts_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openlastalertsactivity();
+                startActivity(i);
             }
         });
+
         alert_button.setOnClickListener(new View.OnClickListener() {
 
             Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
             Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
-
             private void ringtone() {
                 try {
                     r.play();
@@ -62,13 +60,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this,AlertActivity.class);
                 Date today = new Date();
                 DATE = today.toString();
-                i.putExtra(DATE, today.toString());
-                //startActivity(i);
-                //ListElementsArrayList.add(DATE);
-                //adapter.notifyDataSetChanged();
+                values.put("DATE", DATE);
+                long row = db.insert("History", null, values);
+                System.out.println(row);
+
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setCancelable(false);
@@ -84,11 +81,6 @@ public class MainActivity extends AppCompatActivity {
                 builder.show();
             }
         });
-    }
-
-    public void openlastalertsactivity() {
-        Intent intent = new Intent(this, AlertActivity.class);
-        startActivity(intent);
     }
 }
 
