@@ -12,7 +12,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "History.db";
     public static final String CREATE_TABLE = "create table History (DATE text)";
-
     public DatabaseHandler(Context context){
         super(context, DB_NAME, null, 1);
     }
