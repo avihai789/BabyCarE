@@ -99,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
                     //Device has disconnected
                     btview.setImageResource(R.drawable.btgrey);
                     disconnected();
-
                 }
             }
         }
@@ -111,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
         values.put("DATE", DATE);
         long row = db.insert("History", null, values);
         System.out.println(row);
-
 
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setCancelable(false);
