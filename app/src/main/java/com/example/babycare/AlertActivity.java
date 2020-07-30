@@ -12,6 +12,9 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+/**
+ * this activity
+ */
 public class AlertActivity extends AppCompatActivity {
 
     private DatabaseHandler dbHandler = null;

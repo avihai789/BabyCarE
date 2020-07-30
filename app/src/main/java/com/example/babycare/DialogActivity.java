@@ -16,6 +16,10 @@ import android.widget.ImageView;
 
 import java.util.Date;
 
+/**
+ * This class is responsible for the alert that pops when the bluetooth connection is gone
+ * or if the alert button was clicked.
+ */
 public class DialogActivity extends AppCompatActivity {
 
     protected static final int NOTIFICATION_ID = 1337;
@@ -29,11 +33,21 @@ public class DialogActivity extends AppCompatActivity {
     public static String DATE = null;
     SQLiteDatabase db = null;
     public static ContentValues values = null;
+    String finalTitle = null;
+    String finalMessage = null;
 
+    /**
+     * This function pops the alert and make the ringtone start playing.
+     * it also takes the current time and put it in the data base.
+     * @param savedInstanceState bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_dialog);
+        setContentView(R.layout.activity_dialog);
+
+        finalTitle = "Kid forgotten";
+        finalMessage = "Return to the car now!!";
 
         notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         r = RingtoneManager.getRingtone(getApplicationContext(), notification);
@@ -48,22 +62,43 @@ public class DialogActivity extends AppCompatActivity {
         long row = db.insert("History", null, values);
         System.out.println(row);
 
+        String temp;
+        Intent intent = getIntent();
+
+        temp = intent.getStringExtra("newtitle");
+        if(temp != null)
+            finalTitle = temp;
+
+        temp = intent.getStringExtra("newmessage");
+        if(temp != null)
+            finalMessage = temp;
+
         AlertDialog.Builder builder = new AlertDialog.Builder(DialogActivity.this);
         builder.setCancelable(false);
-        builder.setTitle("Kid forgotten");
-        builder.setMessage("Return to the car now!!");
+        builder.setTitle(finalTitle);
+        builder.setMessage(finalMessage);
         ringtone();
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 r.stop();
-
+                onBackPressed();
             }
         });
         builder.show();
-
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        r.stop();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        r.stop();
+    }
 
     private void ringtone() {
         try {

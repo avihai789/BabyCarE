@@ -55,7 +55,7 @@ public class Service extends android.app.Service {
             String action = intent.getAction();
             BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
             String name = device.getName();
-            if(name.equals("AirPods ")) {
+            if(name.equals("Nautilus")) {
 
                 if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
                     //Device is now connected
