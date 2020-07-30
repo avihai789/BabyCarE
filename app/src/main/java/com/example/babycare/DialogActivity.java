@@ -57,7 +57,7 @@ public class DialogActivity extends AppCompatActivity {
         values = new ContentValues();
 
         Date today = new Date();
-        DATE = today.toString();
+        DATE = today.toString().substring(0, 16);
         values.put("DATE", DATE);
         long row = db.insert("History", null, values);
         System.out.println(row);

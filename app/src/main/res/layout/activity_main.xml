@@ -13,26 +13,26 @@
         android:id="@+id/alert_btn"
         android:layout_width="184dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="160dp"
+        android:layout_marginBottom="140dp"
         android:backgroundTint="#D3A75C"
         android:scaleType="fitXY"
         android:text="ALERT"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.268"
+        app:layout_constraintHorizontal_bias="0.308"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/change_btn"
         android:layout_width="184dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="340dp"
+        android:layout_marginBottom="272dp"
         android:backgroundTint="#D3A75C"
         android:scaleType="fitXY"
         android:text="CHANGE MESSAGE"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.773"
+        app:layout_constraintHorizontal_bias="0.687"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/change" />
 
@@ -40,13 +40,13 @@
         android:id="@+id/last_alert_btn"
         android:layout_width="184dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="488dp"
+        android:layout_marginBottom="412dp"
         android:backgroundTint="#D3A75C"
         android:scaleType="fitXY"
         android:text="HISTORY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.187"
+        app:layout_constraintHorizontal_bias="0.308"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/history" />
 
