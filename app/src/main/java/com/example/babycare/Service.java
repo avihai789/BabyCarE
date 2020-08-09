@@ -55,7 +55,7 @@ public class Service extends android.app.Service {
             String action = intent.getAction();
             BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
             String name = device.getName();
-            if(name.equals("Nautilus")) {
+            if(name.equals("BT04-A")) {
 
                 if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
                     //Device is now connected
@@ -72,7 +72,7 @@ public class Service extends android.app.Service {
     public void disconnected(){
 
         final Intent i = new Intent(Service.this,DialogActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
 
     }

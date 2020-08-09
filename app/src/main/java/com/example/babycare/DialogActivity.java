@@ -35,6 +35,8 @@ public class DialogActivity extends AppCompatActivity {
     public static ContentValues values = null;
     String finalTitle = null;
     String finalMessage = null;
+    String newTitle = null;
+    String newMessage = null;
 
     /**
      * This function pops the alert and make the ringtone start playing.
@@ -45,6 +47,8 @@ public class DialogActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dialog);
+
+
 
         finalTitle = "Kid forgotten";
         finalMessage = "Return to the car now!!";
@@ -66,11 +70,11 @@ public class DialogActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         temp = intent.getStringExtra("newtitle");
-        if(temp != null)
+        if(temp != null && newTitle != null)
             finalTitle = temp;
 
         temp = intent.getStringExtra("newmessage");
-        if(temp != null)
+        if(temp != null && newMessage != null)
             finalMessage = temp;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(DialogActivity.this);

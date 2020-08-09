@@ -48,6 +48,16 @@ public class MainActivity extends AppCompatActivity implements NewMessageDialog.
         Button alert_button = findViewById(R.id.alert_btn);
         Button last_alerts_button = findViewById(R.id.last_alert_btn);
         Button changeAlertBtn = findViewById(R.id.change_btn);
+        ImageButton infoButton = findViewById(R.id.info_btn);
+
+        infoButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                InfoDialog infoDialog = new InfoDialog();
+                infoDialog.show(getSupportFragmentManager(), "How to use");
+            }
+        });
 
         last_alerts_button.setOnClickListener(new View.OnClickListener() {
             @Override
