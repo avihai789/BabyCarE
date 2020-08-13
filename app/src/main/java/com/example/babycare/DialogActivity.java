@@ -70,11 +70,11 @@ public class DialogActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         temp = intent.getStringExtra("newtitle");
-        if(temp != null && newTitle != null)
+        if(temp != null )
             finalTitle = temp;
 
         temp = intent.getStringExtra("newmessage");
-        if(temp != null && newMessage != null)
+        if(temp != null)
             finalMessage = temp;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(DialogActivity.this);

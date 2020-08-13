@@ -1,7 +1,9 @@
 package com.example.babycare;
 
 import android.annotation.SuppressLint;
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -13,8 +15,13 @@ import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import com.example.babycare.utilities.MyNotification;
 
@@ -25,6 +32,12 @@ public class Service extends android.app.Service {
     private static Service mCurrentService;
     private int counter = 0;
     public ImageView btview = null;
+    static final UUID mUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    byte b;
+    InputStream inputStream = null;
+    BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
+    BluetoothDevice hc05;
+    BluetoothSocket btSocket = null;
 
     public Service() {
         super();
@@ -47,6 +60,45 @@ public class Service extends android.app.Service {
         }
         mCurrentService = this;
 
+        btsetup();
+
+
+    }
+
+    public void btsetup() {
+
+        if (btAdapter != null) {
+            int counter = 0;
+            do {
+                try {
+
+                    hc05 = btAdapter.getRemoteDevice("64:46:0B:04:01:A3");
+
+                    if (!btAdapter.isEnabled()) {
+                        btAdapter.enable();
+                        TimeUnit.SECONDS.sleep(1);
+                    }
+
+                    btSocket = hc05.createRfcommSocketToServiceRecord(mUUID);
+                    System.out.println(btSocket);
+                    btSocket.connect();
+                    System.out.println(btSocket.isConnected());
+
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+                counter++;
+            } while (!btSocket.isConnected() && counter < 3);
+
+            try {
+                inputStream = btSocket.getInputStream();
+                inputStream.skip(inputStream.available());
+                b = (byte) inputStream.read();
+                System.out.println((char) b);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -55,24 +107,35 @@ public class Service extends android.app.Service {
             String action = intent.getAction();
             BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
             String name = device.getName();
-            if(name.equals("BT04-A")) {
+            if (name.equals("BT04-A")) {
+
 
                 if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
                     //Device is now connected
                     MainActivity.btview.setImageResource(R.drawable.btblue);
+                } else if (BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED.equals(action)) {
+                    //Device is about to disconnect
+                    try {
+                        b = (byte) inputStream.read();
+                        inputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 } else if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
                     //Device has disconnected
                     MainActivity.btview.setImageResource(R.drawable.btgrey);
-                    disconnected();
+                    if ((char) b == '1')
+                        disconnected();
                 }
             }
         }
     };
 
-    public void disconnected(){
 
-        final Intent i = new Intent(Service.this,DialogActivity.class);
-        //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    public void disconnected() {
+
+        final Intent i = new Intent(Service.this, DialogActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
 
     }
@@ -94,6 +157,8 @@ public class Service extends android.app.Service {
         restartForeground();
 
         startTimer();
+
+        btsetup();
 
         // return start sticky so if it is killed by android, it will be restarted with Intent null
         return START_STICKY;

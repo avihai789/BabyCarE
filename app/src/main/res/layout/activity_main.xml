@@ -14,38 +14,39 @@
         android:layout_width="52dp"
         android:layout_height="49dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginBottom="592dp"
         android:background="@drawable/info"
         android:scaleType="centerInside"
         android:src="@drawable/info"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.849"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/alert_btn"
         android:layout_width="184dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="164dp"
+        android:layout_marginBottom="144dp"
         android:backgroundTint="#D3A75C"
         android:scaleType="fitXY"
         android:text="ALERT"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.268"
+        app:layout_constraintHorizontal_bias="0.823"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/change_btn"
         android:layout_width="184dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="308dp"
+        android:layout_marginBottom="272dp"
         android:backgroundTint="#D3A75C"
         android:scaleType="fitXY"
         android:text="CHANGE MESSAGE"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.792"
+        app:layout_constraintHorizontal_bias="0.198"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/change" />
 
@@ -53,13 +54,13 @@
         android:id="@+id/last_alert_btn"
         android:layout_width="184dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="412dp"
+        android:layout_marginBottom="400dp"
         android:backgroundTint="#D3A75C"
         android:scaleType="fitXY"
         android:text="HISTORY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.229"
+        app:layout_constraintHorizontal_bias="0.792"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/history" />
 
@@ -67,10 +68,10 @@
         android:id="@+id/btimage"
         android:layout_width="67dp"
         android:layout_height="56dp"
-        android:layout_marginBottom="36dp"
+        android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.918"
+        app:layout_constraintHorizontal_bias="0.09"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/btgrey" />
 
